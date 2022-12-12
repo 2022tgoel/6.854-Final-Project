@@ -1,0 +1,36 @@
+import cv2
+import numpy as np
+from math import exp, pow
+
+FILENAME = "test1"
+SIZE = 50
+# Experimentally determined sigma from the person's blog post
+SIGMA = 30
+
+OBJCOLOR, BKGCOLOR = (0, 0, 255), (0, 255, 0)
+SOURCE, SINK = -2, -1
+
+
+def read_cuts(filename):
+    with open(filename, "r") as f:
+        lines = f.readlines()
+        for line in lines:
+            pass
+
+
+image = cv2.imread("{}.jpg".format(FILENAME), cv2.IMREAD_GRAYSCALE)
+image = cv2.resize(image, (SIZE, SIZE))
+
+seeded_image = cv2.imread("{}seeded.jpg".format(FILENAME), cv2.IMREAD_COLOR)
+seeded_image = cv2.resize(seeded_image, (SIZE, SIZE), interpolation=cv2.INTER_NEAREST)
+unresized_seeded = cv2.resize(seeded_image, (SIZE*10, SIZE*10), interpolation=cv2.INTER_NEAREST)
+
+V = image.size + 2
+graph = np.zeros((V, V), dtype="int32")
+
+cuts = read_cuts("{}_graph_output.txt".format(FILENAME))
+
+cv2.imshow("image", image)
+cv2.imshow("seeded image", seeded_image)
+cv2.imshow("unresized seeded image", unresized_seeded)
+cv2.waitKey(0)

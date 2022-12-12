@@ -3,7 +3,7 @@ import numpy as np
 from math import exp, pow
 
 FILENAME = "test1"
-SIZE = 50
+SIZE = 30
 # Experimentally determined sigma from the person's blog post
 SIGMA = 30
 
@@ -38,7 +38,7 @@ def make_n_links(graph, image):
     for i in range(r):
         for j in range(c):
             x = i * c + j
-            if i + r < r: # pixel below
+            if i + 1 < r: # pixel below
                 y = (i + 1) % c + j
                 bp = boundaryPenalty(image[i][j], image[i + 1][j])
                 graph[x][y] = graph[y][x] = bp
