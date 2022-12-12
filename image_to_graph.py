@@ -39,7 +39,7 @@ def make_n_links(graph, image):
         for j in range(c):
             x = i * c + j
             if i + 1 < r: # pixel below
-                y = (i + 1) % c + j
+                y = (i + 1) * c + j
                 bp = boundaryPenalty(image[i][j], image[i + 1][j])
                 graph[x][y] = graph[y][x] = bp
                 K = max(K, bp)
