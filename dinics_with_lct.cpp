@@ -31,7 +31,7 @@ edge * path(link_cut_tree *u) {
 void update(link_cut_tree *u, int x) {
 	if (u) {
 		u->up->cap += x;
-		if (u->up->reverse) u->up->reverse -= x;
+		if (u->up->reverse) u->up->reverse->cap -= x;
 		u->path_value += x;
 		u->tag += x;
 	}
@@ -106,7 +106,7 @@ void splay(link_cut_tree *u) {
 		rotate(u);
 		pull(g), pull(p), pull(u);
 	}
-	push(u);
+	push(u), pull(u);
 }
  
 void access(link_cut_tree *u) {
@@ -124,19 +124,6 @@ void reroot(link_cut_tree *u) {
 	access(u);
 	u->flip ^= true;
 }
- 
-void link(link_cut_tree *u, link_cut_tree *v) {
-	reroot(v), access(u);
-	v->par = u;
-	pull(u);
-}
- 
-void cut(link_cut_tree *u, link_cut_tree *v) {
-	reroot(v), access(u);
-	u->left = nullptr;
-	v->par = nullptr;
-	pull(u);
-}
 
 link_cut_tree * find_root(link_cut_tree *u) {
 	access(u);
@@ -144,51 +131,78 @@ link_cut_tree * find_root(link_cut_tree *u) {
 	access(u);
 	return u;
 }
+ 
+void link(link_cut_tree *u, link_cut_tree *v) {
+	link_cut_tree *w = find_root(v);
+
+	reroot(v), access(u);
+	v->par = u;
+	pull(u);
+
+	reroot(w);
+}
+ 
+void cut(link_cut_tree *u, link_cut_tree *v) {
+	link_cut_tree *w = find_root(v);
+
+	reroot(v), access(u);
+	u->left = nullptr;
+	v->par = nullptr;
+	pull(u);
+
+	reroot(w);
+}
+
+void assign(link_cut_tree *u, edge *e) {
+	access(u);
+	u->up = e;
+	pull(u);
+}
 
 struct dinics_with_lct {
 
 	vector<link_cut_tree*> lct;
 	vector<vector<int>> children;
-    
-    vector<vector<edge*>> adj;
-    vector<int> level, ptr;
-    int n;
+		
+	vector<vector<edge*>> adj;
+	vector<int> level, ptr;
+	int n;
 
-    dinics_with_lct(int n) : n(n) {
-        adj.resize(n);
-    }
-    
-    void add_edge(int u, int v, int w) {
-        edge *forwards = new edge{u, v, w};
-        edge *backwards = new edge{v, u, 0};
-        forwards->reverse = backwards;
-        backwards->reverse = forwards;
-        adj[u].push_back(forwards);
-        adj[v].push_back(backwards);
-    }
+	dinics_with_lct(int n) : n(n) {
+		adj.resize(n);
+	}
+		
+	void add_edge(int u, int v, int w) {
+		edge *forwards = new edge{u, v, w};
+		edge *backwards = new edge{v, u, 0};
+		forwards->reverse = backwards;
+		backwards->reverse = forwards;
+		adj[u].push_back(forwards);
+		adj[v].push_back(backwards);
+	}
 
-    
-    bool bfs() {
-        level.assign(n, -1);
-    
-        queue<int> node_q;
-        node_q.push(SOURCE);
-        level[SOURCE] = 0;
-    
-        while (!node_q.empty()) {
-            int u = node_q.front(); node_q.pop();
-            for (auto e : adj[u]) {
-                if (e->cap && level[e->to] == -1) {
-                    level[e->to] = level[u] + 1;
-                    node_q.push(e->to);
-    
-                    if (e->to == SINK) return true;
-                }
-            }
-        }
-    
-        return false;
-    }
+		
+	bool bfs() {
+		level.assign(n, -1);
+		
+		queue<int> node_q;
+		node_q.push(SOURCE);
+		level[SOURCE] = 0;
+		
+		while (!node_q.empty()) {
+			int u = node_q.front(); node_q.pop();
+			for (auto e : adj[u]) {
+				if (e->cap && level[e->to] == -1) {
+					level[e->to] = level[u] + 1;
+					node_q.push(e->to);
+		
+					if (e->to == SINK) return true;
+				}
+			}
+		}
+		
+		return false;
+	}
 
 	// 	currently at node u = root(source)
 	// 		if we're at sink
@@ -221,9 +235,11 @@ struct dinics_with_lct {
 			int u = find_root(lct[SOURCE])->up->from;
 			if (u == SINK) {
 				access(lct[SOURCE]);
+
 				edge cut_edge = *path(lct[SOURCE]);
-				pushed += cut_edge.cap;
-				update(lct[SOURCE], -cut_edge.cap);
+				pushed += lct[SOURCE]->path_value;
+				update(lct[SOURCE], -lct[SOURCE]->path_value);
+
 				cut(lct[cut_edge.to], lct[cut_edge.from]);
 			} else {
 				edge *e = nullptr;
@@ -236,16 +252,14 @@ struct dinics_with_lct {
 				if (!e) {
 					if (u == SOURCE) break;
 					for (auto c : children[u]) {
-						if (find_root(lct[c]) == lct[u])
-							cut(lct[c], lct[u]);
+						if (find_root(lct[c]) == lct[u]) {
+							cut(lct[u], lct[c]);
+						}
 					}
 					children[u].clear();
 				} else {
-					access(lct[u]);
-					lct[u]->up = e;
-					pull(lct[u]);
-
-					link(lct[e->to], lct[u]);
+					assign(lct[u], e);
+					link(lct[u], lct[e->to]);
 					children[e->to].push_back(u);
 				}
 			}
@@ -257,38 +271,38 @@ struct dinics_with_lct {
 
 		return pushed;
 	}
-    
-    int max_flow() {
-        int answer = 0;
-        while (bfs()) {
-            answer += dfs();
-        }
-        return answer;
-    }
+		
+	int max_flow() {
+		int answer = 0;
+		while (bfs()) {
+			answer += dfs();
+		}
+		return answer;
+	}
 
-    vector<bool> min_cut() {
-        vector<bool> in_s(n);
-        for (int i = 0; i < n; ++i) {
-            in_s[i] = level[i] >= 0;
-        }
-        return in_s;
-    }
+	vector<bool> min_cut() {
+		vector<bool> in_s(n);
+		for (int i = 0; i < n; ++i) {
+			in_s[i] = level[i] >= 0;
+		}
+		return in_s;
+	}
 };
 
 int main() {
-    int n, m; cin >> n >> m;
+	int n, m; cin >> n >> m;
 
-    dinics_with_lct flow_solver(n);
-    for (int i = 0; i < m; ++i) {
-        int u, v, w; cin >> u >> v >> w;
-        flow_solver.add_edge(u, v, w);
-    }
+	dinics_with_lct flow_solver(n);
+	for (int i = 0; i < m; ++i) {
+		int u, v, w; cin >> u >> v >> w;
+		flow_solver.add_edge(u, v, w);
+	}
 
-    cout << flow_solver.max_flow() << "\n";
+	cout << flow_solver.max_flow() << "\n";
 
-    vector<bool> cut = flow_solver.min_cut();
-    for (int i = 0; i < n; ++i) {
-        cout << cut[i];
-    }
-    cout << "\n";
+	vector<bool> cut = flow_solver.min_cut();
+	for (int i = 0; i < n; ++i) {
+		cout << cut[i];
+	}
+	cout << "\n";
 }
