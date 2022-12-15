@@ -298,6 +298,8 @@ int main() {
 		flow_solver.add_edge(u, v, w);
 	}
 
+	auto start_time = clock();
+
 	cout << flow_solver.max_flow() << "\n";
 
 	vector<bool> cut = flow_solver.min_cut();
@@ -305,4 +307,6 @@ int main() {
 		cout << cut[i];
 	}
 	cout << "\n";
+
+	cout << "Time elapsed: " << 1.0 * (clock() - start_time) / CLOCKS_PER_SEC << "\n";
 }
