@@ -3,9 +3,7 @@ import numpy as np
 from math import exp, pow
 
 FILENAME = "test1"
-SIZE = 200
-# Experimentally determined sigma from the person's blog post
-SIGMA = 10
+SIZE = 150
 
 OBJCOLOR, BKGCOLOR = (0, 0, 255), (0, 255, 0)
 SOURCE, SINK = -2, -1

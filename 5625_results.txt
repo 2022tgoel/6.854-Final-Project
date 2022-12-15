@@ -1,0 +1,25 @@
+Compiling
+Running dinics's...
+Execution 1: 0.053942
+Execution 2: 0.054014
+Execution 3: 0.053688
+Execution 4: 0.054909
+Execution 5: 0.053657
+Execution 6: 0.053746
+Execution 7: 0.053749
+Execution 8: 0.053924
+Execution 9: 0.054625
+Execution 10: 0.053715
+Average timing: 0.0539969
+Running dinics's with LCT...
+Execution 1: 0.075402
+Execution 2: 0.074815
+Execution 3: 0.075071
+Execution 4: 0.074876
+Execution 5: 0.075179
+Execution 6: 0.077357
+Execution 7: 0.075074
+Execution 8: 0.07491
+Execution 9: 0.074836
+Execution 10: 0.075351
+Average timing: 0.07528710000000001

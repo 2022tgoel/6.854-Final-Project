@@ -3,7 +3,7 @@ import numpy as np
 from math import exp, pow
 
 FILENAME = "test1"
-SIZE = 200
+SIZE = 150
 # Experimentally determined sigma. dependent on size
 SIGMA = 5
 
@@ -11,9 +11,7 @@ OBJCOLOR, BKGCOLOR = (0, 0, 255), (0, 255, 0)
 SOURCE, SINK = -2, -1
 
 def save_graph_to_file(graph):
-    print("Generating graph...")
     N = len(graph)
-    print("Generating graph...")
 
     indices = np.nonzero(graph)
     values = graph[indices]
