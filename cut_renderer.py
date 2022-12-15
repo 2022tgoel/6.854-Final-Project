@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 from math import exp, pow
 
-FILENAME = "test1"
-SIZE = 150
+FILENAME = "test3"
+SIZE = 250
 
 OBJCOLOR, BKGCOLOR = (0, 0, 255), (0, 255, 0)
 SOURCE, SINK = -2, -1
