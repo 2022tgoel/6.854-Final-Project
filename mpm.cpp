@@ -22,9 +22,9 @@ struct MPM {
     vector<bool> alive;
     vector<ll> dem;  
     int s, t; 
-    MPM(int n, int m){
-        s = 1;
-        t = n;
+    MPM(int n, int m, int source, int target){
+        s = source;
+        t = target;
         levels.resize(n+1);
         adj.resize(n+1);
         in.resize(n+1);
@@ -42,13 +42,12 @@ struct MPM {
         adj[b].push_back(f);
     }
 
-    bool BFS(int start=1){
-        // create level graph 
-        assert(start==s);
+    bool BFS(){
+        // create level graph
         fill(levels.begin(), levels.end(), -1); 
-        levels[start] = 0;
+        levels[s] = 0;
         queue<int> q;
-        q.push(start);
+        q.push(s);
         while (!q.empty()){
             int cur = q.front();
             q.pop();
@@ -149,6 +148,7 @@ struct MPM {
     ll solve(){
         // returns max flow value 
         ll f = 0;
+        BFS();
         while(BFS()){
             level_graph();
             fill(alive.begin(), alive.end(), true); // all nodes are live 
@@ -165,9 +165,23 @@ struct MPM {
         return f;
     }
 
+    vector<bool> min_cut() {
+		vector<bool> in_s(t);
+		for (int i = 1; i <= t; ++i) {
+			in_s[i-1] = levels[i] >= 0;
+		}
+		return in_s;
+	}
+
     void print_edge(Edge* e){
         cout << e->u << ' ' << e->v << ' ' << e->cap << ' ' << e->rev->cap << endl;
     }
+
+    void print_levels(){
+        for (int i = 1; i <=t;i++) cout << levels[i] << ' ';
+        cout << endl;
+    }
+
     void print_level(){
         cout << "-------printing--------" << endl;
         for (int i = 1; i <= t; i++){
@@ -193,18 +207,29 @@ struct MPM {
 
 int main (void) {
     // uncomment to read input from file 
-    // ifstream cin("graph.txt"); ofstream cout("out.txt");
+    // ifstream cin("graph2.txt"); ofstream cout("out.txt");
     int n, m;
     cin >> n >> m;
-    MPM d(n, m);
+    MPM d(n, m, n-1, n);
     for (int i = 0; i < m; i++){
         int a, b; ll c;
+        // all incremented by one
         cin >> a >> b >> c;
+        a++; b++;
         d.add_edge(a, b, c);
     }
+    auto start_time = clock();
+
     cout << d.solve() << endl;
+
+    vector<bool> cut = d.min_cut();
+	for (int i = 0; i < n; ++i) {
+		cout << cut[i];
+	}
+	cout << "\n";
+
+	cout << "Time elapsed: " << 1.0 * (clock() - start_time) / CLOCKS_PER_SEC << "\n";
     // cin.close();
     // cout.close();
-
 
 }
