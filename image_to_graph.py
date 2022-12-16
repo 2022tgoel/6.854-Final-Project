@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from math import exp, pow
 
-FILENAME = "testbaby"
+FILENAME = "test1"
 SIZE = 200
 # Experimentally determined sigma. dependent on size
 SIGMA = 5
@@ -17,7 +17,7 @@ def save_graph_to_file(graph):
     values = graph[indices]
 
     print("Writing to file...")
-    with open("{}_graph_input.txt".format(FILENAME), "w") as f:
+    with open("graph_input.txt".format(FILENAME), "w") as f:
         f.write("{} {}\n".format(N, len(values)))
         for e in zip(indices[0], indices[1], values):
             f.write("{} {} {}\n".format(e[0], e[1], e[2]))
@@ -67,7 +67,8 @@ def make_t_links(graph, image, seeded_image, K):
                 links += 1
                 # graph[sink][x] = K
             elif (seeded_image[i, j, 0] != seeded_image[i, j, 1]):
-                print(seeded_image[i, j])
+                # print(seeded_image[i, j])
+                pass
             # else:
             #     graph[x][source] = LAMBDA * regionalPenalty(image[i][j], BKG)
             #     graph[x][sink]   = LAMBDA * regionalPenalty(image[i][j], OBJ)
@@ -92,7 +93,9 @@ make_t_links(graph, image, seeded_image, K)
 
 save_graph_to_file(graph)
 
+"""
 cv2.imshow("image", image)
 cv2.imshow("seeded image", seeded_image)
 cv2.imshow("unresized seeded image", unresized_seeded)
 cv2.waitKey(0)
+"""

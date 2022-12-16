@@ -1,0 +1,36 @@
+Compiling
+Setting name = test1
+Setting size = 30, sigma = 30
+Generating graph...
+Generated 7 t-links
+Writing to file...
+Running dinics's...
+Execution 1: 0.011531
+Execution 2: 0.010494
+Execution 3: 0.010427
+Average timing: 0.016226
+Running dinics's with LCT...
+Execution 1: 0.006954
+Execution 2: 0.005937
+Execution 3: 0.005236
+Average timing: 0.0018127
+Setting size = 75, sigma = 10
+Generating graph...
+Generated 48 t-links
+Writing to file...
+Running dinics's...
+Execution 1: 0.057374
+Execution 2: 0.055799
+Execution 3: 0.059289
+Average timing: 0.086231
+Running dinics's with LCT...
+Execution 1: 0.084659
+Execution 2: 0.083913
+Execution 3: 0.087373
+Average timing: 0.0255945
+Setting size = 200, sigma = 5
+Generating graph...
+Generated 329 t-links
+Writing to file...
+Running dinics's...
+Execution 1: 6.88753
