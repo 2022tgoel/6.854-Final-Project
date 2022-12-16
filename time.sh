@@ -5,12 +5,14 @@ g++ -o dinics_prog -std=c++17 dinics.cpp
 g++ -o dinics_lct_prog -std=c++17 dinics_with_lct.cpp
 
 benchmark_algo () {
+	
+	iters=3
 
 	echo "Running dinics's..."
 
 	total_dinics_time=0
-
-	for i in {1..3}
+ 
+	for (( i=1; i<=$iters; i++ ))
 	do
 		./dinics_prog < graph_input.txt > graph_output.txt
 
@@ -22,14 +24,14 @@ benchmark_algo () {
 		echo "Execution $i: $time"
 	done
 
-	echo "Average timing: $(python3 -c "print($total_dinics_time/2)")"
+	echo "Average timing: $(python3 -c "print($total_dinics_time/$iters)")"
 
 
 	echo "Running dinics's with LCT..."
 
 	total_dinics_lct_time=0
 
-	for i in {1..3}
+	for (( i=1; i<=$iters; i++ ))
 	do
 		./dinics_lct_prog < graph_input.txt > graph_output.txt
 
@@ -41,7 +43,7 @@ benchmark_algo () {
 		echo "Execution $i: $time"
 	done
 
-	echo "Average timing: $(python3 -c "print($total_dinics_lct_time/10)")"
+	echo "Average timing: $(python3 -c "print($total_dinics_lct_time/$iters)")"
 
 }
 

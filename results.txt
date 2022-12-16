@@ -34,3 +34,94 @@ Generated 329 t-links
 Writing to file...
 Running dinics's...
 Execution 1: 6.88753
+Execution 2: 7.06304
+Execution 3: 6.86659
+Average timing: 10.40858
+Running dinics's with LCT...
+Execution 1: 1.863
+Execution 2: 1.83442
+Execution 3: 1.85043
+Average timing: 0.5547850000000001
+Setting name = test3
+Setting size = 30, sigma = 30
+Generating graph...
+Generated 33 t-links
+Writing to file...
+Running dinics's...
+Execution 1: 0.017835
+Execution 2: 0.017772
+Execution 3: 0.017744
+Average timing: 0.026675499999999998
+Running dinics's with LCT...
+Execution 1: 0.046789
+Execution 2: 0.04684
+Execution 3: 0.047007
+Average timing: 0.014063599999999999
+Setting size = 75, sigma = 10
+Generating graph...
+Generated 202 t-links
+Writing to file...
+Running dinics's...
+Execution 1: 0.187166
+Execution 2: 0.188604
+Execution 3: 0.18564
+Average timing: 0.280705
+Running dinics's with LCT...
+Execution 1: 0.275465
+Execution 2: 0.263811
+Execution 3: 0.277607
+Average timing: 0.0816883
+Setting size = 200, sigma = 5
+Generating graph...
+Generated 1397 t-links
+Writing to file...
+Running dinics's...
+Execution 1: 10.7163
+Execution 2: 10.8592
+Execution 3: 12.5074
+Average timing: 17.041449999999998
+Running dinics's with LCT...
+Execution 1: 8.34469
+Execution 2: 8.26953
+Execution 3: 8.06857
+Average timing: 2.468279
+Setting name = testbaby
+Setting size = 30, sigma = 30
+Generating graph...
+Generated 35 t-links
+Writing to file...
+Running dinics's...
+Execution 1: 0.010403
+Execution 2: 0.010252
+Execution 3: 0.010353
+Average timing: 0.015504
+Running dinics's with LCT...
+Execution 1: 0.025754
+Execution 2: 0.02552
+Execution 3: 0.025896
+Average timing: 0.007717
+Setting size = 75, sigma = 10
+Generating graph...
+Generated 223 t-links
+Writing to file...
+Running dinics's...
+Execution 1: 0.178607
+Execution 2: 0.177655
+Execution 3: 0.17928
+Average timing: 0.267771
+Running dinics's with LCT...
+Execution 1: 0.338676
+Execution 2: 0.341835
+Execution 3: 0.341401
+Average timing: 0.1021912
+Setting size = 200, sigma = 5
+Generating graph...
+Generated 1602 t-links
+Writing to file...
+Running dinics's...
+Execution 1: 9.36158
+Execution 2: 9.36198
+Execution 3: 9.26832
+Average timing: 13.99594
+Running dinics's with LCT...
+Execution 1: 9.92904
