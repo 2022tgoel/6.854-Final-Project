@@ -3,48 +3,33 @@
 echo "Compiling"
 g++ -o dinics_prog -std=c++17 dinics.cpp
 g++ -o dinics_lct_prog -std=c++17 dinics_with_lct.cpp
+g++ -o mpm_prog -std=c++17 mpm.cpp
 
 benchmark_algo () {
-	
-	iters=3
+	algos=( "dinics" "dinics_lct" "mpm" )
 
-	echo "Running dinics's..."
-
-	total_dinics_time=0
- 
-	for (( i=1; i<=$iters; i++ ))
+	for algo in "${algos[@]}"
 	do
-		./dinics_prog < graph_input.txt > graph_output.txt
+		iters=3
 
-		timing=$(tail -1 graph_output.txt)
-		pat='([0-9]+\.[0-9]+)'
-		[[ "$timing" =~ $pat ]]
-		time=${BASH_REMATCH[0]}
-		total_dinics_time=$(python3 -c "print($total_dinics_time+$time)")
-		echo "Execution $i: $time"
+		echo "Running ${algo}..."
+
+		total_time=0
+	 
+		for (( i=1; i<=$iters; i++ ))
+		do
+			./${algo}_prog < graph_input.txt > graph_output.txt
+
+			timing=$(tail -1 graph_output.txt)
+			pat='([0-9]+\.[0-9]+)'
+			[[ "$timing" =~ $pat ]]
+			time=${BASH_REMATCH[0]}
+			total_time=$(python3 -c "print($total_time+$time)")
+			echo "Execution $i: $time"
+		done
+
+		echo "Average timing: $(python3 -c "print($total_time/$iters)")"
 	done
-
-	echo "Average timing: $(python3 -c "print($total_dinics_time/$iters)")"
-
-
-	echo "Running dinics's with LCT..."
-
-	total_dinics_lct_time=0
-
-	for (( i=1; i<=$iters; i++ ))
-	do
-		./dinics_lct_prog < graph_input.txt > graph_output.txt
-
-		timing=$(tail -1 graph_output.txt)
-		pat='([0-9]+\.[0-9]+)'
-		[[ "$timing" =~ $pat ]]
-		time=${BASH_REMATCH[0]}
-		total_dinics_lct_time=$(python3 -c "print($total_dinics_lct_time+$time)")
-		echo "Execution $i: $time"
-	done
-
-	echo "Average timing: $(python3 -c "print($total_dinics_lct_time/$iters)")"
-
 }
 
 benchmark_file () {

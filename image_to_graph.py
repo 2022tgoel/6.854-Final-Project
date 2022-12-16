@@ -3,9 +3,9 @@ import numpy as np
 from math import exp, pow
 
 FILENAME = "test1"
-SIZE = 200
+SIZE = 30
 # Experimentally determined sigma. dependent on size
-SIGMA = 5
+SIGMA = 30
 
 OBJCOLOR, BKGCOLOR = (0, 0, 255), (0, 255, 0)
 SOURCE, SINK = -2, -1
