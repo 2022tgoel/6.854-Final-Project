@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 #define ll long long
 using namespace std;
-ll MAX = 1e9+10;
+ll MAX = 1e12+10;
 struct Edge { 
     int u, v; 
     ll cap; 
@@ -82,6 +82,7 @@ struct MPM {
                 if (levels[e->u] + 1 == levels[e->v] && e->cap > 0) add_admissible_edge(e);
             }
         }
+            
     }
 
     void remove_node(int i){
@@ -132,7 +133,9 @@ struct MPM {
         int cur = v;
         dem[cur] = f;
         while(cur!=end){
-            for (Edge* e : (dir ? out[cur] : in[cur])){
+            auto it = dir ? out[cur].begin() : in[cur].begin();
+            while(true){
+                Edge* e = *it; it++;
                 ll val = min(e->cap, dem[cur]);
                 push_flow(e, val);
                 int x = (dir ? e->v : e->u);
@@ -148,7 +151,6 @@ struct MPM {
     ll solve(){
         // returns max flow value 
         ll f = 0;
-        BFS();
         while(BFS()){
             level_graph();
             fill(alive.begin(), alive.end(), true); // all nodes are live 
@@ -207,20 +209,20 @@ struct MPM {
 
 int main (void) {
     // uncomment to read input from file 
-    // ifstream cin("graph2.txt"); ofstream cout("out.txt");
+    // ifstream cin("graph.txt"); ofstream cout("mpm_out.txt");
     int n, m;
     cin >> n >> m;
-    MPM d(n, m, n-1, n);
+    MPM d(n, m, n-1, n); // CHANGE 
     for (int i = 0; i < m; i++){
         int a, b; ll c;
         // all incremented by one
         cin >> a >> b >> c;
-        a++; b++;
+        a++; b++; // ADD BACK WHEN NOT TESTING 
         d.add_edge(a, b, c);
     }
     auto start_time = clock();
-
-    cout << d.solve() << endl;
+    ll f = d.solve();
+    cout << f << endl;
 
     vector<bool> cut = d.min_cut();
 	for (int i = 0; i < n; ++i) {
