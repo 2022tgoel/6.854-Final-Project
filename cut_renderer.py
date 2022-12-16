@@ -37,7 +37,7 @@ unresized_seeded = cv2.resize(seeded_image, (SIZE*10, SIZE*10), interpolation=cv
 V = image.size + 2
 graph = np.zeros((V, V), dtype="int32")
 
-cuts = read_cuts("{}_graph_output.txt".format(FILENAME), seeded_image)
+cuts = read_cuts("graph_output.txt".format(FILENAME), seeded_image)
 
 cv2.imshow("image", image)
 cv2.imshow("seeded image", seeded_image)
