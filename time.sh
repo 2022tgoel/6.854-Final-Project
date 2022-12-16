@@ -6,7 +6,8 @@ g++ -o dinics_lct_prog -std=c++17 dinics_with_lct.cpp
 g++ -o mpm_prog -std=c++17 mpm.cpp
 
 benchmark_algo () {
-	algos=( "dinics" "dinics_lct" "mpm" )
+	# algos=( "dinics" "dinics_lct" "mpm" )
+	algos=( "dinics" "dinics_lct" )
 
 	for algo in "${algos[@]}"
 	do
@@ -33,6 +34,7 @@ benchmark_algo () {
 }
 
 benchmark_file () {
+	echo
 	echo "Setting size = 30, sigma = 30"
 	gsed -i 's/SIZE = [0-9]\+/SIZE = 30/g' image_to_graph.py
 	gsed -i 's/SIGMA = [0-9]\+/SIGMA = 30/g' image_to_graph.py
@@ -41,6 +43,7 @@ benchmark_file () {
 
 	benchmark_algo
 
+	echo
 	echo "Setting size = 75, sigma = 10"
 	gsed -i 's/SIZE = [0-9]\+/SIZE = 75/g' image_to_graph.py
 	gsed -i 's/SIGMA = [0-9]\+/SIGMA = 10/g' image_to_graph.py
@@ -49,6 +52,7 @@ benchmark_file () {
 
 	benchmark_algo
 
+	echo
 	echo "Setting size = 200, sigma = 5"
 	gsed -i 's/SIZE = [0-9]\+/SIZE = 200/g' image_to_graph.py
 	gsed -i 's/SIGMA = [0-9]\+/SIGMA = 5/g' image_to_graph.py
@@ -58,16 +62,25 @@ benchmark_file () {
 	benchmark_algo
 }
 
+echo
+echo "===================="
+echo
 echo "Setting name = test1"
 gsed -i 's/^FILENAME = ".\+"$/FILENAME = "test1"/' image_to_graph.py
 
 benchmark_file
 
+echo
+echo "===================="
+echo
 echo "Setting name = test3"
 gsed -i 's/^FILENAME = ".\+"$/FILENAME = "test3"/' image_to_graph.py
 
 benchmark_file
 
+echo
+echo "===================="
+echo
 echo "Setting name = testbaby"
 gsed -i 's/^FILENAME = ".\+"$/FILENAME = "testbaby"/' image_to_graph.py
 

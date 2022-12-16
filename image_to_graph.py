@@ -2,10 +2,10 @@ import cv2
 import numpy as np
 from math import exp, pow
 
-FILENAME = "test1"
-SIZE = 30
+FILENAME = "testbaby"
+SIZE = 200
 # Experimentally determined sigma. dependent on size
-SIGMA = 30
+SIGMA = 5
 
 OBJCOLOR, BKGCOLOR = (0, 0, 255), (0, 255, 0)
 SOURCE, SINK = -2, -1
